@@ -3,7 +3,7 @@ import { useState } from "react";
 import { ulid } from "ulid";
 import { Item, ItemStatus } from "../models/item";
 import { Box, Button, Chip, MenuItem, Select, TextField } from "@mui/material";
-import { Category, useItems } from "../hooks/useItems";
+import { useItems } from "../hooks/useItems";
 
 const defaultStatus: ItemStatus = "available";
 
