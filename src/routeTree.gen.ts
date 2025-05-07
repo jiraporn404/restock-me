@@ -12,7 +12,6 @@
 
 import { Route as rootRoute } from './routes/__root'
 import { Route as SettingImport } from './routes/setting'
-import { Route as RestockImport } from './routes/restock'
 import { Route as AddImport } from './routes/add'
 import { Route as AboutImport } from './routes/about'
 import { Route as IndexImport } from './routes/index'
@@ -22,12 +21,6 @@ import { Route as IndexImport } from './routes/index'
 const SettingRoute = SettingImport.update({
   id: '/setting',
   path: '/setting',
-  getParentRoute: () => rootRoute,
-} as any)
-
-const RestockRoute = RestockImport.update({
-  id: '/restock',
-  path: '/restock',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -74,13 +67,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AddImport
       parentRoute: typeof rootRoute
     }
-    '/restock': {
-      id: '/restock'
-      path: '/restock'
-      fullPath: '/restock'
-      preLoaderRoute: typeof RestockImport
-      parentRoute: typeof rootRoute
-    }
     '/setting': {
       id: '/setting'
       path: '/setting'
@@ -97,7 +83,6 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/add': typeof AddRoute
-  '/restock': typeof RestockRoute
   '/setting': typeof SettingRoute
 }
 
@@ -105,7 +90,6 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/add': typeof AddRoute
-  '/restock': typeof RestockRoute
   '/setting': typeof SettingRoute
 }
 
@@ -114,16 +98,15 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/add': typeof AddRoute
-  '/restock': typeof RestockRoute
   '/setting': typeof SettingRoute
 }
 
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/about' | '/add' | '/restock' | '/setting'
+  fullPaths: '/' | '/about' | '/add' | '/setting'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/about' | '/add' | '/restock' | '/setting'
-  id: '__root__' | '/' | '/about' | '/add' | '/restock' | '/setting'
+  to: '/' | '/about' | '/add' | '/setting'
+  id: '__root__' | '/' | '/about' | '/add' | '/setting'
   fileRoutesById: FileRoutesById
 }
 
@@ -131,7 +114,6 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AboutRoute: typeof AboutRoute
   AddRoute: typeof AddRoute
-  RestockRoute: typeof RestockRoute
   SettingRoute: typeof SettingRoute
 }
 
@@ -139,7 +121,6 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AboutRoute: AboutRoute,
   AddRoute: AddRoute,
-  RestockRoute: RestockRoute,
   SettingRoute: SettingRoute,
 }
 
@@ -156,7 +137,6 @@ export const routeTree = rootRoute
         "/",
         "/about",
         "/add",
-        "/restock",
         "/setting"
       ]
     },
@@ -168,9 +148,6 @@ export const routeTree = rootRoute
     },
     "/add": {
       "filePath": "add.tsx"
-    },
-    "/restock": {
-      "filePath": "restock.tsx"
     },
     "/setting": {
       "filePath": "setting.tsx"
