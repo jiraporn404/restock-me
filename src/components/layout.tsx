@@ -111,7 +111,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
               label="หน้าหลัก"
               icon={<HomeIcon />}
               onClick={() => navigate({ to: "/" })}
-            />{" "}
+            />
             <BottomNavigationAction
               label="เพิ่มสินค้า"
               icon={<AddIcon />}

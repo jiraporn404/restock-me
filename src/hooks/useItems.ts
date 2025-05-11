@@ -1,6 +1,7 @@
 import { Item } from "../models/item";
 import { useLocalStorage } from "./useLocalStorage";
 import { generatePastelColor } from "../utils/colors";
+import { useCallback } from "react";
 
 export type Category = {
   name: string;
@@ -21,29 +22,53 @@ export function useItems() {
     DEFAULT_CATEGORIES
   );
 
-  const addItem = (item: Item) => {
-    setItems([...items, item]);
-  };
+  const addItem = useCallback(
+    (item: Item) => {
+      setItems((currentItems) => [...currentItems, item]);
+    },
+    [setItems]
+  );
 
-  const deleteItem = (id: string) => {
-    setItems(items.filter((item) => item.id !== id));
-  };
+  const deleteItem = useCallback(
+    (id: string) => {
+      setItems((currentItems) => currentItems.filter((item) => item.id !== id));
+    },
+    [setItems]
+  );
 
-  const updateItem = (id: string, updates: Partial<Item>) => {
-    setItems(items.map((i) => (i.id === id ? { ...i, ...updates } : i)));
-  };
+  const updateItem = useCallback(
+    (id: string, updates: Partial<Item>) => {
+      setItems((currentItems) =>
+        currentItems.map((i) => (i.id === id ? { ...i, ...updates } : i))
+      );
+    },
+    [setItems]
+  );
 
-  const addCategory = (category: Category) => {
-    setCategories([...categories, category]);
-  };
+  const addCategory = useCallback(
+    (category: Category) => {
+      setCategories((currentCategories) => [...currentCategories, category]);
+    },
+    [setCategories]
+  );
 
-  const deleteCategory = (category: Category) => {
-    setCategories(categories.filter((c) => c !== category));
-  };
+  const deleteCategory = useCallback(
+    (category: Category) => {
+      setCategories((currentCategories) =>
+        currentCategories.filter((c) => c !== category)
+      );
+    },
+    [setCategories]
+  );
 
-  const updateCategory = (index: number, category: Category) => {
-    setCategories(categories.map((c, i) => (i === index ? category : c)));
-  };
+  const updateCategory = useCallback(
+    (index: number, category: Category) => {
+      setCategories((currentCategories) =>
+        currentCategories.map((c, i) => (i === index ? category : c))
+      );
+    },
+    [setCategories]
+  );
 
   return {
     items,

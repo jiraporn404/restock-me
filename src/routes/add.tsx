@@ -2,8 +2,20 @@ import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useState } from "react";
 import { ulid } from "ulid";
 import { Item, ItemStatus } from "../models/item";
-import { Box, Button, Chip, MenuItem, Select, TextField } from "@mui/material";
+import {
+  Box,
+  Button,
+  Chip,
+  MenuItem,
+  Select,
+  TextField,
+  InputLabel,
+  FormControl,
+  Stack,
+} from "@mui/material";
 import { useItems } from "../hooks/useItems";
+import dayjs from "dayjs";
+import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 
 const defaultStatus: ItemStatus = "available";
 
@@ -13,6 +25,12 @@ export const Route = createFileRoute("/add")({
 
 function RouteComponent() {
   const [name, setName] = useState("");
+  const [startUsingAt, setStartUsingAt] = useState<string | null>(
+    new Date().toISOString().split("T")[0]
+  );
+  const [boughtAt, setBoughtAt] = useState<string | null>(
+    new Date().toISOString().split("T")[0]
+  );
   const { addItem, categories } = useItems();
   const [category, setCategory] = useState(categories[0].name);
 
@@ -28,7 +46,10 @@ function RouteComponent() {
       category: category,
       status: defaultStatus,
       boughtAt: new Date().toISOString(),
+      startUsingAt: startUsingAt,
+      endUsingAt: null,
       updatedAt: new Date().toISOString(),
+      createdAt: new Date().toISOString(),
     };
 
     await addItem(newItem);
@@ -38,33 +59,50 @@ function RouteComponent() {
   return (
     <Box>
       <form onSubmit={handleAdd}>
-        <TextField
-          label="ชื่อของ"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-          fullWidth
-          margin="normal"
-        />
+        <Stack>
+          <TextField
+            label="ชื่อของ"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            fullWidth
+          />
 
-        <Select
-          value={category}
-          onChange={(e) => setCategory(e.target.value)}
-          fullWidth
-          displayEmpty
-          sx={{ mt: 2 }}
-        >
-          {categories.map((cat) => (
-            <MenuItem key={cat.name} value={cat.name}>
-              <Chip
-                label={cat.name}
-                sx={{
-                  backgroundColor: cat.color,
-                  width: "fit-content",
-                }}
-              />
-            </MenuItem>
-          ))}
-        </Select>
+          <FormControl fullWidth>
+            <InputLabel id="category-label">หมวดหมู่</InputLabel>
+            <Select
+              value={category}
+              onChange={(e) => setCategory(e.target.value)}
+              fullWidth
+              displayEmpty
+              label="หมวดหมู่"
+              labelId="category-label"
+            >
+              {categories.map((cat) => (
+                <MenuItem key={cat.name} value={cat.name}>
+                  <Chip
+                    label={cat.name}
+                    sx={{
+                      backgroundColor: cat.color,
+                      width: "fit-content",
+                    }}
+                  />
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
+          <DatePicker
+            label="ซื้อเมื่อ"
+            value={dayjs(boughtAt)}
+            onChange={(value) => setBoughtAt(value?.toISOString() ?? "")}
+            format="DD/MM/YYYY"
+          />
+          <DatePicker
+            label="เริ่มใช้"
+            value={dayjs(startUsingAt)}
+            onChange={(value) => setStartUsingAt(value?.toISOString() ?? "")}
+            format="DD/MM/YYYY"
+          />
+        </Stack>
 
         <Button
           variant="contained"

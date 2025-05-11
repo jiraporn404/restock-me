@@ -5,13 +5,13 @@ import { getNextStatus } from "../utils/itemUtils";
 import { ItemCard } from "../components/itemCard";
 import { FilterBar } from "../components/filterBar";
 import { useItems } from "../hooks/useItems";
-
+import { ItemStatus } from "../models/item";
 export const Route = createFileRoute("/")({
   component: Homepage,
 });
 
 function Homepage() {
-  const { items, updateItem, deleteItem } = useItems();
+  const { items, categories, updateItem, deleteItem } = useItems();
   const [search, setSearch] = useState("");
   const [filter, setFilter] = useState("all");
   const [sort, setSort] = useState("name");
@@ -29,6 +29,24 @@ function Homepage() {
 
   const handleDelete = (id: string) => {
     deleteItem(id);
+  };
+
+  const handleEdit = (
+    id: string,
+    name: string,
+    category: string,
+    boughtAt: string,
+    status: ItemStatus,
+    startUsingAt: string
+  ) => {
+    updateItem(id, {
+      name,
+      category,
+      boughtAt,
+      status,
+      startUsingAt,
+      updatedAt: new Date().toISOString(),
+    });
   };
 
   const filteredItems = items
@@ -57,8 +75,10 @@ function Homepage() {
           <ItemCard
             key={item.id}
             item={item}
+            categories={categories}
             onToggleStatus={handleToggleStatus}
             onDelete={handleDelete}
+            onEdit={handleEdit}
           />
         ))}
       </Stack>

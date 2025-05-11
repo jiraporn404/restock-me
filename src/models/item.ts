@@ -6,7 +6,10 @@ export interface Item {
   category: string;
   status: ItemStatus;
   boughtAt: string;
+  startUsingAt: string | null;
+  endUsingAt: string | null;
   updatedAt: string;
+  createdAt: string;
 }
 
 export const statusIcons: Record<ItemStatus, string> = {

@@ -16,25 +16,41 @@ import {
   InputLabel,
 } from "@mui/material";
 import { Item, ItemStatus, statusColors, statusLabels } from "../models/item";
-import { useItems } from "../hooks/useItems";
-import { MouseEvent, useState } from "react";
+import { Category } from "../hooks/useItems";
+import { MouseEvent, useEffect, useState } from "react";
 import { MoreVertIcon, EditIcon, DeleteIcon } from "../icons";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import dayjs from "dayjs";
 
 type Props = {
   item: Item;
+  categories: Category[];
   onToggleStatus: (id: string) => void;
   onDelete?: (id: string) => void;
+  onEdit?: (
+    id: string,
+    name: string,
+    category: string,
+    boughtAt: string,
+    status: ItemStatus,
+    startUsingAt: string
+  ) => void;
 };
 
-export function ItemCard({ item, onToggleStatus, onDelete }: Props) {
-  const { categories, updateItem } = useItems();
+export function ItemCard({
+  item: initialItem,
+  categories,
+  onToggleStatus,
+  onDelete,
+  onEdit,
+}: Props) {
+  const item = initialItem;
   const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
   const [openEditDialog, setOpenEditDialog] = useState(false);
   const [name, setName] = useState(item.name);
   const [category, setCategory] = useState(item.category);
   const [boughtAt, setBoughtAt] = useState(item.boughtAt);
+  const [startUsingAt, setStartUsingAt] = useState(item.startUsingAt);
   const [status, setStatus] = useState(item.status);
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
@@ -54,6 +70,16 @@ export function ItemCard({ item, onToggleStatus, onDelete }: Props) {
     onToggleStatus(item.id);
   };
 
+  useEffect(() => {
+    if (openEditDialog) {
+      setName(item.name);
+      setCategory(item.category);
+      setBoughtAt(item.boughtAt);
+      setStartUsingAt(item.startUsingAt);
+      setStatus(item.status);
+    }
+  }, [openEditDialog, item]);
+
   return (
     <Stack
       direction="row"
@@ -61,6 +87,7 @@ export function ItemCard({ item, onToggleStatus, onDelete }: Props) {
       alignItems="center"
       px={2}
       py={1}
+      pb={1.5}
       border="1px solid #e0e0e0"
       borderRadius={2}
       width="100%"
@@ -80,14 +107,16 @@ export function ItemCard({ item, onToggleStatus, onDelete }: Props) {
           width={1}
           justifyContent="space-between"
         >
-          <Typography fontSize={18} component={"span"}>
-            {item.name}{" "}
+          <Stack direction="row" spacing={1} alignItems={"center"}>
+            <Typography fontSize={18} component={"span"}>
+              {item.name}
+            </Typography>
             <Chip
-              label={statusLabels[item.status]}
+              label={statusLabels[item.status]} // <-- ใช้จาก props โดยตรง
               color={statusColors[item.status] as any}
               onClick={handleToggleStatus}
             />
-          </Typography>
+          </Stack>
 
           <IconButton
             aria-label="more"
@@ -125,15 +154,32 @@ export function ItemCard({ item, onToggleStatus, onDelete }: Props) {
             </MenuItem>
           </Menu>
         </Stack>
+        <Stack
+          direction="row"
+          justifyContent={"space-between"}
+          alignItems={"center"}
+        >
+          <Chip
+            label={item.category}
+            sx={{
+              backgroundColor: categories.find((c) => c.name === item.category)
+                ?.color,
+              width: "fit-content",
+            }}
+          />{" "}
+          <Typography fontSize={12} color="text.secondary">
+            เริ่มใช้งาน:{" "}
+            {item.startUsingAt
+              ? new Date(item.startUsingAt).toLocaleString("th-TH", {
+                  year: "numeric",
+                  month: "2-digit",
+                  day: "2-digit",
+                })
+              : "ยังไม่ใช้งาน"}
+          </Typography>
+        </Stack>
 
-        <Chip
-          label={item.category}
-          sx={{
-            backgroundColor: categories.find((c) => c.name === item.category)
-              ?.color,
-            width: "fit-content",
-          }}
-        />
+        {/* 
         <Stack direction="row" justifyContent="space-between">
           <Typography fontSize={12} color="text.secondary">
             ซื้อเมื่อ:{" "}
@@ -153,7 +199,8 @@ export function ItemCard({ item, onToggleStatus, onDelete }: Props) {
               minute: "2-digit",
             })}
           </Typography>
-        </Stack>
+        </Stack> 
+        */}
       </Stack>
       {openDeleteDialog && (
         <Dialog
@@ -232,6 +279,14 @@ export function ItemCard({ item, onToggleStatus, onDelete }: Props) {
                 onChange={(value) => setBoughtAt(value?.toISOString() ?? "")}
                 format="DD/MM/YYYY"
               />
+              <DatePicker
+                label="เริ่มใช้"
+                value={dayjs(startUsingAt)}
+                onChange={(value) =>
+                  setStartUsingAt(value?.toISOString() ?? "")
+                }
+                format="DD/MM/YYYY"
+              />
             </Stack>
           </DialogContent>
           <DialogActions>
@@ -240,7 +295,14 @@ export function ItemCard({ item, onToggleStatus, onDelete }: Props) {
             </Button>
             <Button
               onClick={() => {
-                updateItem(item.id, { name, category, boughtAt, status });
+                onEdit?.(
+                  item.id,
+                  name,
+                  category,
+                  boughtAt,
+                  status,
+                  startUsingAt ?? ""
+                );
                 setOpenEditDialog(false);
               }}
             >
