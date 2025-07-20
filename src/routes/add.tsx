@@ -57,11 +57,11 @@ function RouteComponent() {
     navigate({ to: "/" });
   };
   return (
-    <Box>
+    <Box mt={1}>
       <form onSubmit={handleAdd}>
         <Stack>
           <TextField
-            label="ชื่อของ"
+            label="ชื่อ"
             value={name}
             onChange={(e) => setName(e.target.value)}
             fullWidth
@@ -84,6 +84,9 @@ function RouteComponent() {
                     sx={{
                       backgroundColor: cat.color,
                       width: "fit-content",
+                      "& .MuiChip-label": {
+                        fontSize: "0.625rem",
+                      },
                     }}
                   />
                 </MenuItem>
@@ -95,12 +98,22 @@ function RouteComponent() {
             value={dayjs(boughtAt)}
             onChange={(value) => setBoughtAt(value?.toISOString() ?? "")}
             format="DD/MM/YYYY"
+            sx={{
+              "& .MuiPickersOutlinedInput-root": {
+                fontSize: "0.875rem",
+              },
+            }}
           />
           <DatePicker
             label="เริ่มใช้"
             value={dayjs(startUsingAt)}
             onChange={(value) => setStartUsingAt(value?.toISOString() ?? "")}
             format="DD/MM/YYYY"
+            sx={{
+              "& .MuiPickersOutlinedInput-root": {
+                fontSize: "0.875rem",
+              },
+            }}
           />
         </Stack>
 

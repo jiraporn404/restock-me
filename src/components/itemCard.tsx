@@ -14,6 +14,7 @@ import {
   Select,
   FormControl,
   InputLabel,
+  Box,
 } from "@mui/material";
 import { Item, ItemStatus, statusColors, statusLabels } from "../models/item";
 import { Category } from "../hooks/useItems";
@@ -85,8 +86,7 @@ export function ItemCard({
       direction="row"
       justifyContent="space-between"
       alignItems="center"
-      px={2}
-      py={1}
+      p={1}
       pb={1.5}
       border="1px solid #e0e0e0"
       borderRadius={2}
@@ -100,7 +100,16 @@ export function ItemCard({
               : "#ffebee",
       }}
     >
-      <Stack spacing={1} width={1}>
+      <Box
+        sx={{
+          width: 20,
+          height: 20,
+          backgroundColor: `${statusColors[item.status]}.main`,
+          borderRadius: "50%",
+        }}
+        onClick={handleToggleStatus}
+      />
+      <Stack spacing={0} width={1}>
         <Stack
           direction="row"
           spacing={1}
@@ -108,14 +117,9 @@ export function ItemCard({
           justifyContent="space-between"
         >
           <Stack direction="row" spacing={1} alignItems={"center"}>
-            <Typography fontSize={18} component={"span"}>
+            <Typography fontSize={14} component={"span"}>
               {item.name}
             </Typography>
-            <Chip
-              label={statusLabels[item.status]} // <-- ใช้จาก props โดยตรง
-              color={statusColors[item.status] as any}
-              onClick={handleToggleStatus}
-            />
           </Stack>
 
           <IconButton
@@ -165,9 +169,12 @@ export function ItemCard({
               backgroundColor: categories.find((c) => c.name === item.category)
                 ?.color,
               width: "fit-content",
+              "& .MuiChip-label": {
+                fontSize: "0.625rem",
+              },
             }}
-          />{" "}
-          <Typography fontSize={12} color="text.secondary">
+          />
+          <Typography fontSize={10} color="text.secondary">
             เริ่มใช้งาน:{" "}
             {item.startUsingAt
               ? new Date(item.startUsingAt).toLocaleString("th-TH", {

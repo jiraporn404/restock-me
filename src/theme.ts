@@ -26,13 +26,13 @@ export const theme = createTheme({
     },
   },
   typography: {
-    fontFamily: ["Kanit", "Arial", "sans-serif"].join(","),
+    fontFamily: ["Mali", "Arial", "sans-serif"].join(","),
   },
   components: {
     MuiTab: {
       styleOverrides: {
         root: {
-          fontFamily: ["Kanit", "Arial", "sans-serif"].join(","),
+          fontFamily: ["Mali", "Arial", "sans-serif"].join(","),
         },
       },
     },
@@ -46,6 +46,11 @@ export const theme = createTheme({
     },
     MuiSelect: {
       defaultProps: { size: "small" },
+      styleOverrides: {
+        select: {
+          fontSize: "0.875rem",
+        },
+      },
     },
     MuiToggleButton: {
       styleOverrides: {
@@ -119,6 +124,13 @@ export const theme = createTheme({
     MuiStack: {
       defaultProps: {
         spacing: 2,
+      },
+    },
+    MuiMenuItem: {
+      styleOverrides: {
+        root: {
+          fontSize: "0.875rem",
+        },
       },
     },
   },

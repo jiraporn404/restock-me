@@ -44,6 +44,11 @@ export function FilterBar({
             value={filter}
             label="กรองสถานะ"
             onChange={(e) => onFilterChange(e.target.value)}
+            sx={{
+              "& .MuiSelect-select": {
+                fontSize: "0.875rem",
+              },
+            }}
           >
             <MenuItem value="all">ทั้งหมด</MenuItem>
             <MenuItem value="available">

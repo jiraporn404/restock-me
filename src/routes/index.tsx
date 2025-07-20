@@ -71,16 +71,18 @@ function Homepage() {
           sort={sort}
           onSortChange={setSort}
         />
-        {filteredItems.map((item) => (
-          <ItemCard
-            key={item.id}
-            item={item}
-            categories={categories}
-            onToggleStatus={handleToggleStatus}
-            onDelete={handleDelete}
-            onEdit={handleEdit}
-          />
-        ))}
+        <Stack spacing={1}>
+          {filteredItems.map((item) => (
+            <ItemCard
+              key={item.id}
+              item={item}
+              categories={categories}
+              onToggleStatus={handleToggleStatus}
+              onDelete={handleDelete}
+              onEdit={handleEdit}
+            />
+          ))}
+        </Stack>
       </Stack>
     </Box>
   );
