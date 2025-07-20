@@ -14,12 +14,11 @@ import {
   Select,
   FormControl,
   InputLabel,
-  Box,
 } from "@mui/material";
 import { Item, ItemStatus, statusColors, statusLabels } from "../models/item";
 import { Category } from "../hooks/useItems";
 import { MouseEvent, useEffect, useState } from "react";
-import { MoreVertIcon, EditIcon, DeleteIcon } from "../icons";
+import { MoreVertIcon, EditIcon, DeleteIcon, CircleIcon } from "../icons";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import dayjs from "dayjs";
 
@@ -86,8 +85,8 @@ export function ItemCard({
       direction="row"
       justifyContent="space-between"
       alignItems="center"
-      p={1}
-      pb={1.5}
+      px={2}
+      py={1}
       border="1px solid #e0e0e0"
       borderRadius={2}
       width="100%"
@@ -100,27 +99,21 @@ export function ItemCard({
               : "#ffebee",
       }}
     >
-      <Box
-        sx={{
-          width: 20,
-          height: 20,
-          backgroundColor: `${statusColors[item.status]}.main`,
-          borderRadius: "50%",
-        }}
+      <CircleIcon
         onClick={handleToggleStatus}
+        sx={{ color: `${statusColors[item.status]}.main` }}
       />
-      <Stack spacing={0} width={1}>
+      <Stack spacing={1 / 2} width={1}>
         <Stack
           direction="row"
-          spacing={1}
+          spacing={0}
           width={1}
           justifyContent="space-between"
+          alignItems={"center"}
         >
-          <Stack direction="row" spacing={1} alignItems={"center"}>
-            <Typography fontSize={14} component={"span"}>
-              {item.name}
-            </Typography>
-          </Stack>
+          <Typography fontSize={14} component={"span"} fontWeight={500}>
+            {item.name}
+          </Typography>
 
           <IconButton
             aria-label="more"
@@ -129,8 +122,13 @@ export function ItemCard({
             aria-expanded={open ? "true" : undefined}
             aria-haspopup="true"
             onClick={handleClickMenu}
+            sx={{
+              "& .MuiIconButton-root": {
+                padding: 0,
+              },
+            }}
           >
-            <MoreVertIcon />
+            <MoreVertIcon fontSize="small" />
           </IconButton>
           <Menu
             id="long-menu"

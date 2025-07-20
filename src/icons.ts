@@ -5,6 +5,7 @@ import SettingsIcon from "@mui/icons-material/Settings";
 import DeleteIcon from "@mui/icons-material/Delete";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import EditIcon from "@mui/icons-material/Edit";
+import CircleIcon from "@mui/icons-material/Circle";
 
 export {
   HomeIcon,
@@ -14,4 +15,5 @@ export {
   DeleteIcon,
   MoreVertIcon,
   EditIcon,
+  CircleIcon,
 };

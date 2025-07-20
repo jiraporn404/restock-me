@@ -48,7 +48,7 @@ export const theme = createTheme({
       defaultProps: { size: "small" },
       styleOverrides: {
         select: {
-          fontSize: "0.875rem",
+          fontSize: "0.75rem",
         },
       },
     },
@@ -129,7 +129,7 @@ export const theme = createTheme({
     MuiMenuItem: {
       styleOverrides: {
         root: {
-          fontSize: "0.875rem",
+          fontSize: "0.75rem",
         },
       },
     },
