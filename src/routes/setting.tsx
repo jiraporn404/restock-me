@@ -38,7 +38,7 @@ function RouteComponent() {
       </Box>
       <Divider sx={{ my: 2 }} />
       {categories.length > 0 ? (
-        <Stack direction="row" spacing={1}>
+        <Stack direction="row" spacing={0} gap={1} flexWrap={"wrap"}>
           {categories.map((cat) => {
             return (
               <Chip
