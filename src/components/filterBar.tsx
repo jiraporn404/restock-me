@@ -35,6 +35,7 @@ export function FilterBar({
         onChange={(e) => onSearchChange(e.target.value)}
         fullWidth
         margin="normal"
+        autoComplete="off"
       />
 
       <Box sx={{ display: "flex", mt: 2, gap: 2 }}>

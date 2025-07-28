@@ -30,6 +30,7 @@ function RouteComponent() {
             onChange={(e) => setNewCategory(e.target.value)}
             fullWidth
             margin="normal"
+            autoComplete="off"
           />
           <Button type="submit" variant="contained" fullWidth>
             เพิ่ม

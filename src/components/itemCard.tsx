@@ -237,6 +237,7 @@ export function ItemCard({
                 label="ชื่อ"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
+                autoComplete="off"
               />
               <FormControl fullWidth>
                 <InputLabel>หมวดหมู่</InputLabel>
